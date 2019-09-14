@@ -26,11 +26,10 @@ func main() {
 			garbageInfos := garbage.GetGarbageType(tomorrowWeekday)
 			messages := []linebot.SendingMessage{}
 			if len(garbageInfos) > 0 {
-				for info := range garbageInfos {
-					fmt.Printf(garbage.GarbageType(info).String())
+				for _, info := range garbageInfos {
 					messages = append(
 						messages,
-						linebot.NewTextMessage(fmt.Sprintf("明日は%vの日だよ！", garbage.GarbageType(info))),
+						linebot.NewTextMessage(fmt.Sprintf("明日は%vの日だよ！", info)),
 					)
 				}
 			} else {
