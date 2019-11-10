@@ -1,5 +1,5 @@
 cron:
   - description: 'ゴミ出し通知'
     url: /job
-    schedule: every day 22:30
+    schedule: every day 21:30
     timezone: Asia/Tokyo
