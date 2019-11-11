@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/line/line-bot-sdk-go/linebot"
@@ -24,14 +25,15 @@ func main() {
 			tomorrowWeekday := time.Now().AddDate(0, 0, 1).Weekday()
 
 			garbageInfos := garbage.GetGarbageType(tomorrowWeekday)
+			garbageInfoTexts := []string{}
+			for _, info := range garbageInfos {
+				garbageInfoTexts = append(garbageInfoTexts, info.String())
+			}
 			messages := []linebot.SendingMessage{}
-			if len(garbageInfos) > 0 {
-				for _, info := range garbageInfos {
-					messages = append(
-						messages,
-						linebot.NewTextMessage(fmt.Sprintf("明日は%vの日だよ！", info)),
-					)
-				}
+
+			if len(garbageInfoTexts) > 0 {
+				text := strings.Join(garbageInfoTexts, "、")
+				messages = append(messages, linebot.NewTextMessage(fmt.Sprintf("明日は%vの日だよ！", text)))
 			} else {
 				messages = append(messages, linebot.NewTextMessage("明日のゴミは無いよ！"))
 			}
